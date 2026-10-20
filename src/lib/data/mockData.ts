@@ -81,7 +81,7 @@ export const INITIAL_BRANCHES: Branch[] = [
     },
     googleBusiness: {
       placeId: "ChIJCentroDemo123",
-      reviewUrl: "https://search.google.com/local/writereview?placeid=ChIJCentroDemo123",
+      reviewUrl: "https://www.google.com/maps/search/?api=1&query=Restaurante+Centro+Veracruz",
       mapsUrl: "https://maps.google.com/?cid=12345",
       currentRating: 4.2,
       totalReviews: 248,
@@ -118,7 +118,7 @@ export const INITIAL_BRANCHES: Branch[] = [
     },
     googleBusiness: {
       placeId: "ChIJAndamarDemo456",
-      reviewUrl: "https://search.google.com/local/writereview?placeid=ChIJAndamarDemo456",
+      reviewUrl: "https://www.google.com/maps/search/?api=1&query=Restaurante+Plaza+Andamar+Boca+del+Rio",
       mapsUrl: "https://maps.google.com/?cid=67890",
       currentRating: 4.7,
       totalReviews: 412,
@@ -155,7 +155,7 @@ export const INITIAL_BRANCHES: Branch[] = [
     },
     googleBusiness: {
       placeId: "ChIJNorteDemo789",
-      reviewUrl: "https://search.google.com/local/writereview?placeid=ChIJNorteDemo789",
+      reviewUrl: "https://www.google.com/maps/search/?api=1&query=Restaurante+Plaza+Brisas+Norte+Veracruz",
       mapsUrl: "https://maps.google.com/?cid=13579",
       currentRating: 4.4,
       totalReviews: 189,

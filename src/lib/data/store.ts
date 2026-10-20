@@ -368,6 +368,37 @@ export class DataStore {
     return newBranch;
   }
 
+  static updateBranch(branchId: string, updates: Partial<Branch>): Branch | undefined {
+    const branch = this.getBranchById(branchId);
+    if (branch) {
+      if (updates.name) branch.name = updates.name;
+      if (updates.phone) branch.phone = updates.phone;
+      if (updates.email !== undefined) branch.email = updates.email;
+      if (updates.googleBusiness) {
+        branch.googleBusiness = { ...branch.googleBusiness, ...updates.googleBusiness };
+      }
+      if (updates.address) {
+        branch.address = { ...branch.address, ...updates.address };
+      }
+      branch.updatedAt = new Date().toISOString();
+    }
+    return branch;
+  }
+
+  /**
+   * Resuelve la URL real de Google Reviews de la sucursal.
+   * Si la sucursal aún tiene un enlace demo/placeholder ("ChIJCentroDemo123"),
+   * genera una búsqueda segura en Google Maps del negocio en lugar de un enlace roto 404.
+   */
+  static getEffectiveGoogleReviewUrl(branch: Branch, tenantName?: string): string {
+    const url = (branch.googleBusiness?.reviewUrl || "").trim();
+    if (!url || url.includes("Demo") || url.includes("Example") || url.includes("ChIJCentroDemo123")) {
+      const query = encodeURIComponent(`${tenantName || "Restaurante"} ${branch.name} ${branch.address?.city || ""}`.trim());
+      return `https://www.google.com/maps/search/?api=1&query=${query}`;
+    }
+    return url;
+  }
+
   // Empleados
   static getEmployees(branchId?: string): Employee[] {
     if (branchId) return this.employees.filter(e => e.branchId === branchId);
@@ -623,7 +654,9 @@ export class DataStore {
     return {
       feedbackId,
       routingDecision,
-      reviewUrl: routingDecision.shouldOfferGoogleReview ? branch.googleBusiness.reviewUrl : undefined,
+      reviewUrl: routingDecision.shouldOfferGoogleReview 
+        ? this.getEffectiveGoogleReviewUrl(branch, tenant.name) 
+        : undefined,
       caseId,
     };
   }
