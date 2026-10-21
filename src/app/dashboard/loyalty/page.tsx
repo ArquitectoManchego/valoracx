@@ -66,7 +66,7 @@ export default function LoyaltyPage() {
 
     const newRwd: Reward = {
       id: `rwd_${Date.now()}`,
-      tenantId: "ten_restaurante_demo",
+      tenantId: "ten_imperia_uniformes",
       name: newRewardName.trim(),
       description: newRewardDesc.trim(),
       pointsRequired: Number(newRewardPoints),

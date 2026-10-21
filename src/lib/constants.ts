@@ -1,22 +1,21 @@
 // src/lib/constants.ts
 
 export const SECTORS = [
-  { id: "restaurant", name: "Restaurante", icon: "Utensils" },
-  { id: "cafe", name: "Cafetería & Panadería", icon: "Coffee" },
-  { id: "hotel", name: "Hotel & Hospedaje", icon: "Hotel" },
-  { id: "retail", name: "Comercio / Retail", icon: "ShoppingBag" },
-  { id: "clinic", name: "Clínica & Salud", icon: "Activity" },
-  { id: "salon", name: "Salón & Belleza", icon: "Scissors" },
+  { id: "retail", name: "Uniformes & Confección Textil", icon: "ShoppingBag" },
+  { id: "medical_uniforms", name: "Uniformes Médicos & Clínicos", icon: "Activity" },
+  { id: "school_uniforms", name: "Uniformes Escolares & Colegiales", icon: "GraduationCap" },
+  { id: "industrial_uniforms", name: "Uniformes Industriales & Seguridad", icon: "ShieldCheck" },
+  { id: "restaurant", name: "Restaurante & Alimentos", icon: "Utensils" },
   { id: "services", name: "Servicios Profesionales", icon: "Briefcase" },
   { id: "other", name: "Otro Negocio Físico", icon: "Store" },
 ] as const;
 
 export const DEFAULT_SURVEY_CATEGORIES = [
-  { id: "servicio", label: "Atención del Personal", icon: "UserCheck" },
-  { id: "calidad", label: "Calidad de Producto/Comida", icon: "Sparkles" },
-  { id: "rapidez", label: "Tiempo de Espera", icon: "Clock" },
-  { id: "limpieza", label: "Limpieza e Higiene", icon: "ShieldCheck" },
-  { id: "ambiente", label: "Ambiente e Instalaciones", icon: "Smile" },
+  { id: "servicio", label: "Atención del Asesor", icon: "UserCheck" },
+  { id: "calidad", label: "Calidad de Prenda y Telas", icon: "Sparkles" },
+  { id: "bordados", label: "Bordados y Acabados", icon: "Scissors" },
+  { id: "tallas", label: "Ajuste y Variedad de Tallas", icon: "ShoppingBag" },
+  { id: "rapidez", label: "Tiempo de Entrega", icon: "Clock" },
   { id: "precio_calidad", label: "Relación Calidad/Precio", icon: "Tag" },
 ];
 
@@ -25,9 +24,9 @@ export const ROLE_LABELS: Record<string, string> = {
   owner: "Propietario / Dueño",
   corporate_admin: "Administrador Corporativo",
   regional_manager: "Gerente Regional",
-  branch_manager: "Gerente de Sucursal",
-  supervisor: "Supervisor de Turno",
-  employee: "Colaborador",
+  branch_manager: "Gerente de Tienda",
+  supervisor: "Supervisor de Mostrador / Taller",
+  employee: "Asesor / Colaborador",
   analyst: "Analista (Solo Lectura)",
 };
 

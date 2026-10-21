@@ -122,7 +122,7 @@ export default function ReportsPage() {
                 const avg = bFeedbacks.length > 0
                   ? (bFeedbacks.reduce((acc, f) => acc + f.rating, 0) / bFeedbacks.length).toFixed(1)
                   : "5.0";
-                const counter = DataStore.getMonthlyCounter("ten_restaurante_demo", b.id);
+                const counter = DataStore.getMonthlyCounter(b.tenantId || "ten_imperia_uniformes", b.id);
 
                 return (
                   <tr key={b.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">

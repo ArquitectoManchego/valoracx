@@ -146,7 +146,7 @@ export default function ReputationPage() {
 
               <div className="space-y-2 text-xs">
                 {branches.map((b) => {
-                  const counter = DataStore.getMonthlyCounter("ten_restaurante_demo", b.id);
+                  const counter = DataStore.getMonthlyCounter(b.tenantId || "ten_imperia_uniformes", b.id);
                   const isFull = counter.positive34Routed >= 2;
 
                   return (

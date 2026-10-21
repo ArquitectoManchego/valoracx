@@ -48,7 +48,7 @@ export default function BranchesPage() {
       const negativeCount = bFeedbacks.filter(f => f.rating <= 2).length;
       const satisfactionRate = total > 0 ? Math.round((positiveCount / total) * 100) : 100;
 
-      const monthlyCounter = DataStore.getMonthlyCounter("ten_restaurante_demo", b.id);
+      const monthlyCounter = DataStore.getMonthlyCounter(b.tenantId || "ten_imperia_uniformes", b.id);
 
       return {
         ...b,
@@ -67,7 +67,7 @@ export default function BranchesPage() {
     if (!name.trim() || !code.trim()) return;
 
     DataStore.addBranch({
-      tenantId: "ten_restaurante_demo",
+      tenantId: tenant?.id || "ten_imperia_uniformes",
       name: name.trim(),
       code: code.trim(),
       address: {
@@ -81,11 +81,11 @@ export default function BranchesPage() {
       timezone: "America/Mexico_City",
       operatingHours: {},
       googleBusiness: {
-        reviewUrl: reviewUrl.trim() || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((tenant?.name || "Restaurante") + " " + name.trim())}`,
-        currentRating: 4.5,
+        reviewUrl: reviewUrl.trim() || "https://maps.app.goo.gl/TGzALojheibt3cK27",
+        currentRating: 4.8,
         totalReviews: 50,
       },
-      areas: ["Salón", "Terraza"],
+      areas: ["Mostrador de Ventas", "Área de Probadores"],
       isActive: true,
     });
 

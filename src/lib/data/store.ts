@@ -12,7 +12,7 @@ import { ReviewRoutingService } from "../services/reviewRoutingService";
 import { AIService } from "../services/aiService";
 import { NotificationService } from "../services/notificationService";
 
-// Función generadora de 150+ feedbacks realistas
+// Función generadora de 150+ feedbacks realistas para Imperia Uniformes
 function generateInitialFeedbacks(): { feedbacks: FeedbackResponse[]; cases: Case[]; compensations: Compensation[]; notifications: NotificationItem[] } {
   const feedbacks: FeedbackResponse[] = [];
   const cases: Case[] = [];
@@ -20,6 +20,12 @@ function generateInitialFeedbacks(): { feedbacks: FeedbackResponse[]; cases: Cas
   const notifications: NotificationItem[] = [];
 
   const branches = ["br_centro", "br_andamar", "br_norte"];
+  const branchLabels: Record<string, string> = {
+    br_centro: "Imperia Matriz - Tienda Centro",
+    br_andamar: "Imperia Sucursal Boca del Río",
+    br_norte: "Imperia Sucursal Norte",
+  };
+
   const employeesByBranch: Record<string, string[]> = {
     br_centro: ["emp_carlos", "emp_luis"],
     br_andamar: ["emp_ana", "emp_sofia"],
@@ -27,28 +33,28 @@ function generateInitialFeedbacks(): { feedbacks: FeedbackResponse[]; cases: Cas
   };
 
   const samplePositiveComments = [
-    "Todo estuvo excelente, la comida deliciosa y el servicio de primera.",
-    "Gran ambiente y atención maravillosa. Volveremos pronto.",
-    "El mejor café y postre que he probado. 10/10.",
-    "Muy atentos en todo momento, nos hicieron sentir como en casa.",
-    "Excelente relación calidad y precio. Muy recomendado.",
-    "La comida riquísima y llegó súper rápido.",
-    "Impecable la limpieza y la música muy agradable.",
-    "Nos atendieron de maravilla, felicidades a todo el equipo.",
+    "Excelente calidad en las telas de los uniformes médicos y el bordado del logo quedó impecable.",
+    "La atención de Carlos fue de primera, me ayudó a encontrar la talla exacta para todo mi equipo de trabajo.",
+    "Entregaron el pedido empresarial antes de tiempo y las prendas lucen súper profesionales. 10/10.",
+    "Gran variedad de modelos, batas y filipinas con telas antifluidos muy cómodas.",
+    "Muy amables en mostrador, resolvieron mis dudas y el bordado computarizado quedó perfecto.",
+    "Los uniformes escolares son de excelente durabilidad, no se desgastan ni se despintan con las lavadas.",
+    "Excelente relación calidad-precio y las instalaciones de la tienda están muy limpias y ordenadas.",
+    "Compré uniformes industriales para mi empresa y cumplieron con todas las normas de seguridad. Muy recomendados.",
   ];
 
   const sampleNeutralComments = [
-    "La comida estuvo rica pero tardaron un poco en traer la cuenta.",
-    "Buen lugar, aunque había un poco de ruido en la terraza.",
-    "El café excelente, pero se equivocaron en un término de la carne al inicio.",
-    "Aceptable, la porción es buena pero el servicio fue algo lento.",
+    "La tela y la costura son de excelente calidad, solamente tardaron un poquito en la entrega del bordado.",
+    "Buena variedad de uniformes, aunque se habían agotado un par de tallas medianas en mostrador.",
+    "Muy buena confección, pero la fila para pagar en caja estuvo algo lenta en hora pico.",
+    "La prenda me quedó muy bien, pero tardaron un poco en avisarme cuando estaba lista para recoger.",
   ];
 
   const sampleNegativeComments = [
-    "La comida llegó fría y el mesero tardó mucho en tomarnos la orden.",
-    "Pésimo tiempo de espera, esperamos más de 45 minutos por dos platillos.",
-    "El servicio fue muy descuidado y la mesa estaba un poco sucia.",
-    "Muy mala actitud del personal cuando pedimos cambio de bebida.",
+    "Hubo un error en la talla del uniforme solicitado y la entrega demoró más de lo pactado.",
+    "El bordado del logotipo vino con un tono ligeramente distinto y tardaron en hacer el ajuste.",
+    "Mala experiencia con la entrega de mi pedido institucional, no respetaron la fecha prometida.",
+    "No encontré tallas disponibles para entrega inmediata y el asesor no me ofreció alternativas.",
   ];
 
   const now = new Date("2026-10-20T12:00:00.000Z").getTime();
@@ -60,13 +66,13 @@ function generateInitialFeedbacks(): { feedbacks: FeedbackResponse[]; cases: Cas
     const branchEmployees = employeesByBranch[branchId];
     const employeeId = branchEmployees[i % branchEmployees.length];
 
-    // Distribución: 65% 5★, 20% 4★, 8% 3★, 4% 2★, 3% 1★
+    // Distribución: 68% 5★, 20% 4★, 7% 3★, 3% 2★, 2% 1★
     let rating = 5;
     const rand = Math.random();
-    if (rand < 0.65) rating = 5;
-    else if (rand < 0.85) rating = 4;
-    else if (rand < 0.93) rating = 3;
-    else if (rand < 0.97) rating = 2;
+    if (rand < 0.68) rating = 5;
+    else if (rand < 0.88) rating = 4;
+    else if (rand < 0.95) rating = 3;
+    else if (rand < 0.98) rating = 2;
     else rating = 1;
 
     let comment: string | undefined = undefined;
@@ -74,12 +80,12 @@ function generateInitialFeedbacks(): { feedbacks: FeedbackResponse[]; cases: Cas
     let positiveScore = 85;
 
     if (rating === 5) {
-      comment = Math.random() > 0.4 ? samplePositiveComments[i % samplePositiveComments.length] : undefined;
+      comment = Math.random() > 0.35 ? samplePositiveComments[i % samplePositiveComments.length] : undefined;
       sentiment = "POSITIVE";
       positiveScore = 90 + Math.floor(Math.random() * 10);
     } else if (rating === 4) {
       if (Math.random() > 0.5) {
-        comment = "Todo estuvo excelente, solamente tardaron un poquito.";
+        comment = "La tela y el bordado estuvieron excelentes, solamente tardaron un poquito en la entrega.";
         sentiment = "POSITIVE";
         positiveScore = 82;
       } else {
@@ -98,8 +104,8 @@ function generateInitialFeedbacks(): { feedbacks: FeedbackResponse[]; cases: Cas
     }
 
     const categoriesSelected = rating >= 4 
-      ? ["servicio", "calidad", "ambiente"] 
-      : ["rapidez", "servicio"];
+      ? ["servicio", "calidad", "bordados"] 
+      : ["rapidez", "tallas", "servicio"];
 
     // Lógica Google Review
     let offered = false;
@@ -113,7 +119,6 @@ function generateInitialFeedbacks(): { feedbacks: FeedbackResponse[]; cases: Cas
       offerShownAt = timestamp;
       if (Math.random() > 0.45) clickedAt = new Date(new Date(timestamp).getTime() + 15000).toISOString();
     } else if ((rating === 4 || rating === 3) && sentiment === "POSITIVE" && positiveScore >= 75) {
-      // Solo algunos entran por cuota
       if (i % 25 === 0) {
         offered = true;
         reason = "positive_3_4_routed";
@@ -139,22 +144,22 @@ function generateInitialFeedbacks(): { feedbacks: FeedbackResponse[]; cases: Cas
       
       const newCase: Case = {
         id: caseId,
-        tenantId: "ten_restaurante_demo",
+        tenantId: "ten_imperia_uniformes",
         branchId,
         feedbackResponseId: responseId,
         employeeId,
         status: isResolved ? "resolved" : (cases.length % 2 === 0 ? "new" : "reviewing"),
         severity: rating === 1 ? "critical" : "high",
-        assignedToName: "Gerente de Turno",
-        customerName: hasCustomerInfo ? (i % 2 === 0 ? "María Fernanda L." : "Roberto Garza") : undefined,
-        customerContact: hasCustomerInfo ? (i % 2 === 0 ? "+52 229 555 1234" : "roberto.g@gmail.com") : undefined,
+        assignedToName: "Encargado de Calidad y Atención",
+        customerName: hasCustomerInfo ? (i % 2 === 0 ? "Dr. Fernando Morales" : "Lic. Andrea Garza") : undefined,
+        customerContact: hasCustomerInfo ? (i % 2 === 0 ? "+52 229 555 1234" : "andrea.g@empresa.com") : undefined,
         customerConsent: hasCustomerInfo,
         slaDeadline: new Date(new Date(timestamp).getTime() + 2 * 3600 * 1000).toISOString(),
         firstResponseAt: isResolved ? new Date(new Date(timestamp).getTime() + 1800 * 1000).toISOString() : undefined,
         resolvedAt: isResolved ? new Date(new Date(timestamp).getTime() + 7200 * 1000).toISOString() : undefined,
         internalNotes: rating === 1 
-          ? "Incidente de comida fría y demora. Se contactó al comensal de inmediato y se aplicó protocolo de recuperación." 
-          : "Demora en servicio durante horario pico. Asignado a supervisor de sala.",
+          ? "Incidente de bordado o ajuste de talla. Se contactó al cliente de inmediato y se aplicó reposición inmediata de prenda." 
+          : "Demora en entrega de pedido en mostrador. Asignado a supervisor de taller para seguimiento.",
         createdAt: timestamp,
         updatedAt: timestamp,
       };
@@ -164,11 +169,11 @@ function generateInitialFeedbacks(): { feedbacks: FeedbackResponse[]; cases: Cas
         newCase.compensationId = compId;
         compensations.push({
           id: compId,
-          tenantId: "ten_restaurante_demo",
+          tenantId: "ten_imperia_uniformes",
           caseId,
-          code: `REC-${1000 + i}-VAL`,
+          code: `IMP-${1000 + i}-VAL`,
           type: "free_item",
-          valueDescription: "Postre artesanal y 2 bebidas de cortesía en próxima visita",
+          valueDescription: "Bordado computarizado de cortesía y ajuste gratuito de prenda en próxima compra",
           status: "sent",
           validUntil: "2026-12-31T23:59:59.000Z",
           createdAt: timestamp,
@@ -180,9 +185,9 @@ function generateInitialFeedbacks(): { feedbacks: FeedbackResponse[]; cases: Cas
 
       notifications.push({
         id: `notif_${cases.length}`,
-        tenantId: "ten_restaurante_demo",
-        title: `Alerta: Experiencia ${rating}★ en ${branchId === "br_centro" ? "Sucursal Centro" : branchId === "br_andamar" ? "Sucursal Andamar" : "Sucursal Norte"}`,
-        body: comment || "Comentario negativo registrado.",
+        tenantId: "ten_imperia_uniformes",
+        title: `Alerta: Experiencia ${rating}★ en ${branchLabels[branchId] || branchId}`,
+        body: comment || "Inconformidad registrada en confección o entrega.",
         type: "critical_feedback",
         relatedEntityId: caseId,
         isRead: isResolved,
@@ -192,7 +197,7 @@ function generateInitialFeedbacks(): { feedbacks: FeedbackResponse[]; cases: Cas
 
     feedbacks.push({
       id: responseId,
-      tenantId: "ten_restaurante_demo",
+      tenantId: "ten_imperia_uniformes",
       branchId,
       touchpointId: branchId === "br_centro" ? "tp_carlos_card" : "tp_ana_card",
       employeeId,
@@ -204,10 +209,10 @@ function generateInitialFeedbacks(): { feedbacks: FeedbackResponse[]; cases: Cas
         sentiment,
         sentimentConfidence: 0.94,
         positiveScore,
-        detectedIssues: rating <= 2 ? ["demora_servicio", "temperatura_alimento"] : [],
+        detectedIssues: rating <= 2 ? ["demora_entrega_pedido", "problema_ajuste_talla"] : [],
         intent: rating >= 4 ? "praise" : rating === 3 ? "suggestion" : "complaint",
         severity: rating <= 2 ? "high" : rating === 3 ? "medium" : "low",
-        aiSummary: comment ? `Opinión de ${rating}★: "${comment}"` : `Calificación rápida de ${rating}★`,
+        aiSummary: comment ? `Opinión de ${rating}★: "${comment}"` : `Calificación rápida de ${rating}★ en mostrador`,
       },
       googleReviewRouting: {
         offered,
@@ -216,7 +221,7 @@ function generateInitialFeedbacks(): { feedbacks: FeedbackResponse[]; cases: Cas
         clickedAt,
       },
       customerContact: rating <= 2 ? {
-        name: i % 2 === 0 ? "María Fernanda L." : "Roberto Garza",
+        name: i % 2 === 0 ? "Dr. Fernando Morales" : "Lic. Andrea Garza",
         phone: "+52 229 555 1234",
         wantsContactRequested: true,
         consentGiven: true,
@@ -257,9 +262,9 @@ export class DataStore {
   private static customers: Customer[] = [
     {
       id: "cust_01",
-      tenantId: "ten_restaurante_demo",
-      name: "Mariana Morales",
-      email: "mariana.morales@gmail.com",
+      tenantId: "ten_imperia_uniformes",
+      name: "Dr. Roberto Mendoza",
+      email: "dr.mendoza@clinicaveracruz.com",
       phone: "+52 229 888 7766",
       loyaltyAccountId: "loy_01",
       createdAt: "2026-03-01T00:00:00.000Z",
@@ -267,9 +272,9 @@ export class DataStore {
     },
     {
       id: "cust_02",
-      tenantId: "ten_restaurante_demo",
-      name: "Alejandro Ruiz",
-      email: "alejandro.r@outlook.com",
+      tenantId: "ten_imperia_uniformes",
+      name: "Lic. Carmen Salgado",
+      email: "carmen.salgado@colegio.edu.mx",
       phone: "+52 229 333 4455",
       loyaltyAccountId: "loy_02",
       createdAt: "2026-04-10T00:00:00.000Z",
@@ -279,7 +284,7 @@ export class DataStore {
   private static loyaltyAccounts: LoyaltyAccount[] = [
     {
       id: "loy_01",
-      tenantId: "ten_restaurante_demo",
+      tenantId: "ten_imperia_uniformes",
       customerId: "cust_01",
       currentBalance: 520,
       tier: "silver",
@@ -291,7 +296,7 @@ export class DataStore {
     },
     {
       id: "loy_02",
-      tenantId: "ten_restaurante_demo",
+      tenantId: "ten_imperia_uniformes",
       customerId: "cust_02",
       currentBalance: 950,
       tier: "gold",
@@ -305,7 +310,7 @@ export class DataStore {
   private static pointsLedger: PointsLedgerEntry[] = [
     {
       id: "led_01",
-      tenantId: "ten_restaurante_demo",
+      tenantId: "ten_imperia_uniformes",
       loyaltyAccountId: "loy_01",
       customerId: "cust_01",
       type: "earn",
@@ -316,7 +321,7 @@ export class DataStore {
     },
     {
       id: "led_02",
-      tenantId: "ten_restaurante_demo",
+      tenantId: "ten_imperia_uniformes",
       loyaltyAccountId: "loy_01",
       customerId: "cust_01",
       type: "earn",
@@ -326,13 +331,13 @@ export class DataStore {
     },
     {
       id: "led_03",
-      tenantId: "ten_restaurante_demo",
+      tenantId: "ten_imperia_uniformes",
       loyaltyAccountId: "loy_01",
       customerId: "cust_01",
       type: "redeem",
-      points: -350,
+      points: -250,
       reason: "reward_redemption",
-      referenceId: "rwd_cafe_postre",
+      referenceId: "rwd_bordado_nombre",
       createdAt: "2026-09-15T16:00:00.000Z",
     },
   ];
@@ -361,6 +366,10 @@ export class DataStore {
     const newBranch: Branch = {
       ...branch,
       id: `br_${Math.random().toString(36).substring(2, 9)}`,
+      googleBusiness: {
+        ...branch.googleBusiness,
+        reviewUrl: branch.googleBusiness?.reviewUrl || "https://maps.app.goo.gl/TGzALojheibt3cK27",
+      },
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -386,15 +395,18 @@ export class DataStore {
   }
 
   /**
-   * Resuelve la URL real de Google Reviews de la sucursal.
-   * Si la sucursal aún tiene un enlace demo/placeholder ("ChIJCentroDemo123"),
-   * genera una búsqueda segura en Google Maps del negocio en lugar de un enlace roto 404.
+   * Resuelve la URL real de Google Reviews de Imperia Uniformes.
+   * Por defecto redirige al perfil oficial en Google Maps:
+   * https://maps.app.goo.gl/TGzALojheibt3cK27
    */
-  static getEffectiveGoogleReviewUrl(branch: Branch, tenantName?: string): string {
-    const url = (branch.googleBusiness?.reviewUrl || "").trim();
-    if (!url || url.includes("Demo") || url.includes("Example") || url.includes("ChIJCentroDemo123")) {
-      const query = encodeURIComponent(`${tenantName || "Restaurante"} ${branch.name} ${branch.address?.city || ""}`.trim());
-      return `https://www.google.com/maps/search/?api=1&query=${query}`;
+  static getEffectiveGoogleReviewUrl(branch?: Branch, tenantName?: string): string {
+    const defaultImperiaUrl = "https://maps.app.goo.gl/TGzALojheibt3cK27";
+    if (!branch || !branch.googleBusiness?.reviewUrl) {
+      return defaultImperiaUrl;
+    }
+    const url = branch.googleBusiness.reviewUrl.trim();
+    if (!url || url.includes("Demo") || url.includes("Example") || url.includes("ChIJCentroDemo123") || url.includes("google.com/maps/search/?api=1")) {
+      return defaultImperiaUrl;
     }
     return url;
   }
@@ -481,61 +493,96 @@ export class DataStore {
     return counter;
   }
 
-  static incrementMonthly34Counter(tenantId: string, branchId: string): void {
+  static incrementMonthlyCounter(tenantId: string, branchId: string): void {
     const counter = this.getMonthlyCounter(tenantId, branchId);
     counter.positive34Routed += 1;
     counter.lastUpdatedAt = new Date().toISOString();
   }
 
-  // Feedbacks
-  static getFeedbacks(filters?: { branchId?: string; employeeId?: string; rating?: number }): FeedbackResponse[] {
-    let result = [...this.feedbacks];
-    if (filters?.branchId) result = result.filter(f => f.branchId === filters.branchId);
-    if (filters?.employeeId) result = result.filter(f => f.employeeId === filters.employeeId);
-    if (filters?.rating) result = result.filter(f => f.rating === filters.rating);
-    return result;
+  // Feedback y Envío
+  static getFeedbacks(filter?: {
+    branchId?: string;
+    employeeId?: string;
+    minRating?: number;
+    maxRating?: number;
+    sentiment?: string;
+  }): FeedbackResponse[] {
+    let list = this.feedbacks;
+    if (!filter) return list;
+
+    if (filter.branchId && filter.branchId !== "all") {
+      list = list.filter(f => f.branchId === filter.branchId);
+    }
+    if (filter.employeeId) {
+      list = list.filter(f => f.employeeId === filter.employeeId);
+    }
+    if (filter.minRating) {
+      list = list.filter(f => f.rating >= filter.minRating!);
+    }
+    if (filter.maxRating) {
+      list = list.filter(f => f.rating <= filter.maxRating!);
+    }
+    if (filter.sentiment) {
+      list = list.filter(f => f.aiAnalysis.sentiment === filter.sentiment);
+    }
+    return list;
   }
 
+  /**
+   * Flujo Central de Feedback:
+   * 1. Valida Touchpoint.
+   * 2. Analiza IA (sentimiento + positiveScore).
+   * 3. Ejecuta ReviewRoutingService (motor de decisión).
+   * 4. Almacena Feedback inmutable.
+   * 5. Incrementa contador mensual si corresponde.
+   * 6. Dispara alertas / crea casos si es negativo.
+   */
   static async submitFeedback(input: {
     token: string;
     rating: number;
-    categoriesSelected?: string[];
     comment?: string;
+    categoriesSelected?: string[];
     customerContact?: {
       name?: string;
-      email?: string;
-      phone?: string;
+      phone: string;
       wantsContactRequested: boolean;
       consentGiven: boolean;
     };
+    durationSeconds?: number;
   }): Promise<{
     feedbackId: string;
-    routingDecision: ReturnType<typeof ReviewRoutingService.evaluate>;
+    routingDecision: any;
     reviewUrl?: string;
     caseId?: string;
   }> {
     const tp = this.getTouchpointByToken(input.token);
-    if (!tp) throw new Error("Touchpoint no válido o revocado.");
+    if (!tp) {
+      throw new Error("Punto de contacto no válido o inactivo");
+    }
 
-    const tenant = this.getTenant();
     const branch = this.getBranchById(tp.branchId);
-    if (!branch) throw new Error("Sucursal no encontrada.");
+    if (!branch) {
+      throw new Error("Sucursal no encontrada");
+    }
 
-    // Análisis de IA (Gemini o motor semántico de respaldo)
+    const tenant = this.tenant;
+    const timestamp = new Date().toISOString();
+
+    // 1. Análisis Semántico con IA
     const aiAnalysis = await AIService.analyzeFeedback(
       input.rating,
       input.comment,
-      input.categoriesSelected
+      input.categoriesSelected || []
     );
 
-    // Consulta de cuota actual de 3-4★
-    const counter = this.getMonthlyCounter(tp.tenantId, tp.branchId);
+    // 2. Consulta Cuota Mensual
+    const monthlyCounter = this.getMonthlyCounter(tenant.id, branch.id);
 
-    // Motor de Enrutamiento Google Review
+    // 3. Motor de Decisión Ética Google Reviews
     const routingDecision = ReviewRoutingService.evaluate(
       {
-        tenantId: tp.tenantId,
-        branchId: tp.branchId,
+        tenantId: tenant.id,
+        branchId: branch.id,
         rating: input.rating,
         sentiment: aiAnalysis.sentiment,
         sentimentConfidence: aiAnalysis.sentimentConfidence,
@@ -544,68 +591,75 @@ export class DataStore {
         categoriesSelected: input.categoriesSelected,
       },
       tenant.settings.reputation,
-      counter.positive34Routed
+      monthlyCounter.positive34Routed
     );
 
-    // Si requería incremento de cuota y se ofreció, incrementamos
-    if (routingDecision.requiresQuotaIncrement) {
-      this.incrementMonthly34Counter(tp.tenantId, tp.branchId);
+    // Si se ofrece y es 3-4 estrellas, consumimos cuota
+    if (routingDecision.shouldOfferGoogleReview && routingDecision.reason === "positive_3_4_routed") {
+      this.incrementMonthlyCounter(tenant.id, branch.id);
     }
 
-    const timestamp = new Date().toISOString();
-    const feedbackId = `fb_${Math.random().toString(36).substring(2, 9)}`;
+    const feedbackId = `fb_${Date.now()}`;
     let caseId: string | undefined = undefined;
 
-    // Crear CASE automático si la experiencia fue de 1 o 2 estrellas
-    if (routingDecision.createCaseRequired) {
-      caseId = `case_${Math.random().toString(36).substring(2, 9)}`;
+    // 4. Si es <= 2 estrellas, crear Caso Interno de Recuperación
+    if (input.rating <= 2) {
+      caseId = `case_${Date.now()}`;
       const newCase: Case = {
         id: caseId,
-        tenantId: tp.tenantId,
-        branchId: tp.branchId,
+        tenantId: tenant.id,
+        branchId: branch.id,
         feedbackResponseId: feedbackId,
         employeeId: tp.assignedEmployeeId,
         status: "new",
         severity: input.rating === 1 ? "critical" : "high",
-        assignedToName: "Gerente de Turno",
+        assignedToName: "Encargado de Calidad y Atención",
         customerName: input.customerContact?.name,
-        customerContact: input.customerContact?.phone || input.customerContact?.email,
-        customerConsent: !!input.customerContact?.consentGiven,
-        slaDeadline: new Date(Date.now() + 2 * 3600 * 1000).toISOString(),
-        internalNotes: `Experiencia de ${input.rating}★ generada vía QR/NFC (${tp.name}). ${input.comment ? `Comentario: "${input.comment}"` : "Sin comentario adicional."}`,
+        customerContact: input.customerContact?.phone,
+        customerConsent: input.customerContact?.consentGiven || false,
+        slaDeadline: new Date(Date.now() + 2 * 3600 * 1000).toISOString(), // 2 horas SLA
+        internalNotes: input.rating === 1 
+          ? "Incidente crítico en calidad o entrega de uniforme. Se contactará de inmediato con protocolo de reemplazo o ajuste." 
+          : "Observación de servicio o entrega en mostrador. Asignado a supervisor de taller para seguimiento.",
         createdAt: timestamp,
         updatedAt: timestamp,
       };
       this.cases.unshift(newCase);
 
-      // Notificación y Alerta multicanal en tiempo real
+      // Disparar Alerta Multicanal
+      await NotificationService.dispatchAlert({
+        tenantId: tenant.id,
+        title: `Alerta Experiencia ${input.rating}★ en ${branch.name}`,
+        message: input.comment || `Problemas reportados: ${aiAnalysis.detectedIssues.join(", ") || "Atención requerida"}`,
+        channels: ["whatsapp", "email", "in_app"],
+        recipients: ["+52 229 123 4567", "atencion@imperiauniformes.com"],
+        severity: input.rating === 1 ? "critical" : "high",
+        metadata: {
+          caseId,
+          feedbackId,
+          branchName: branch.name,
+          employeeName: tp.assignedEmployeeId ? this.getEmployeeById(tp.assignedEmployeeId)?.displayName : undefined,
+        },
+      });
+
+      // Crear Notificación Interna
       this.notifications.unshift({
         id: `notif_${Date.now()}`,
-        tenantId: tp.tenantId,
-        title: `🚨 Alerta: Feedback ${input.rating}★ en ${branch.name}`,
-        body: input.comment || "Cliente insatisfecho requiere atención.",
+        tenantId: tenant.id,
+        title: `Nueva experiencia crítica (${input.rating}★) en ${branch.name}`,
+        body: input.comment || `Problemas detectados: ${aiAnalysis.detectedIssues.join(", ") || "Atención requerida"}`,
         type: "critical_feedback",
         relatedEntityId: caseId,
         isRead: false,
         createdAt: timestamp,
       });
-
-      // Disparo a WhatsApp Cloud API / Email Mock Provider
-      await NotificationService.dispatchAlert({
-        tenantId: tp.tenantId,
-        title: `🚨 Alerta Inmediata: ${input.rating}★ en ${branch.name}`,
-        message: input.comment || "Se ha abierto un caso urgente.",
-        channels: ["whatsapp", "email", "in_app"],
-        recipients: ["+52 229 123 4567"],
-        severity: "critical",
-      });
     }
 
-    // Persistir feedback
+    // 5. Almacenar Feedback Inmutable
     const newFeedback: FeedbackResponse = {
       id: feedbackId,
-      tenantId: tp.tenantId,
-      branchId: tp.branchId,
+      tenantId: tenant.id,
+      branchId: branch.id,
       touchpointId: tp.id,
       employeeId: tp.assignedEmployeeId,
       rating: input.rating,
@@ -618,12 +672,17 @@ export class DataStore {
         reason: routingDecision.reason,
         offerShownAt: routingDecision.shouldOfferGoogleReview ? timestamp : undefined,
       },
-      customerContact: input.customerContact,
+      customerContact: input.customerContact ? {
+        name: input.customerContact.name,
+        phone: input.customerContact.phone,
+        wantsContactRequested: input.customerContact.wantsContactRequested,
+        consentGiven: input.customerContact.consentGiven,
+      } : undefined,
       caseId,
       sessionMetadata: {
-        durationSeconds: 12,
+        durationSeconds: input.durationSeconds || 15,
         deviceType: "mobile",
-        ipHashAnonymized: `hash_${Date.now()}`,
+        ipHashAnonymized: "hash_anonymized",
       },
       createdAt: timestamp,
     };
@@ -661,7 +720,7 @@ export class DataStore {
     };
   }
 
-  // Registrar clic en Google Review (SEPARADO de offer_shown y NUNCA presumiendo published)
+  // Registrar clic en Google Review
   static recordGoogleReviewClick(feedbackId: string): void {
     const fb = this.feedbacks.find(f => f.id === feedbackId);
     if (fb && fb.googleReviewRouting.offered) {
@@ -704,9 +763,9 @@ export class DataStore {
   }): Compensation {
     const comp: Compensation = {
       id: `comp_${Math.random().toString(36).substring(2, 9)}`,
-      tenantId: "ten_restaurante_demo",
+      tenantId: "ten_imperia_uniformes",
       caseId: input.caseId,
-      code: `VAL-${Math.floor(1000 + Math.random() * 9000)}-CUP`,
+      code: `IMP-${Math.floor(1000 + Math.random() * 9000)}-CUP`,
       type: input.type,
       valueDescription: input.valueDescription,
       valueNumber: input.valueNumber,

@@ -4,9 +4,9 @@
   "private": true,
   "description": "Plataforma SaaS Multi-tenant de Feedback, Reputación, Analítica, Incidentes y Fidelización para Negocios Físicos",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3027",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3027",
     "lint": "next lint"
   },
   "dependencies": {

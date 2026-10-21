@@ -49,7 +49,7 @@ export default function HomePage() {
         </h1>
 
         <p className="text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
-          Permite a tus comensales y clientes calificar a tu equipo acercando su teléfono a tarjetas NFC o escaneando un QR. Recupera clientes insatisfechos en segundos y potencia tus reseñas públicas con IA.
+          Permite a tus clientes y compradores calificar a tu equipo acercando su teléfono a tarjetas NFC o escaneando un QR. Recupera clientes insatisfechos en segundos y potencia tus reseñas públicas con IA.
         </p>
 
         {/* Action Buttons */}

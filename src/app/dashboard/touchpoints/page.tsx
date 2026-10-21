@@ -61,7 +61,7 @@ export default function TouchpointsPage() {
     const domain = typeof window !== "undefined" ? window.location.origin : "https://valoracx.app";
 
     DataStore.addTouchpoint({
-      tenantId: "ten_restaurante_demo",
+      tenantId: "ten_imperia_uniformes",
       branchId: newBranchId,
       name: newName.trim(),
       type: newType,

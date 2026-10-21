@@ -55,7 +55,7 @@ export default function EmployeesPage() {
     if (!firstName.trim() || !lastName.trim() || !branchId) return;
 
     const newEmp = DataStore.addEmployee({
-      tenantId: "ten_restaurante_demo",
+      tenantId: "ten_imperia_uniformes",
       branchId,
       firstName: firstName.trim(),
       lastName: lastName.trim(),

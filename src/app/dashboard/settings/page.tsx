@@ -36,7 +36,7 @@ export default function SettingsPage() {
 
   // WhatsApp Alert Mock Config
   const [whatsappPhone, setWhatsappPhone] = useState("+52 229 123 4567");
-  const [emailAlert, setEmailAlert] = useState("gerencia@restaurantedemo.com");
+  const [emailAlert, setEmailAlert] = useState("atencion@imperiauniformes.com");
   const [savedSuccess, setSavedSuccess] = useState(false);
 
   const handleSaveSettings = (e: React.FormEvent) => {
